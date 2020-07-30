@@ -1,0 +1,2 @@
+﻿Uri for Yml File Documentation 
+	https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
