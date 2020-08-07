@@ -1,4 +1,4 @@
-﻿namespace Reaiot.Web.Constants
+﻿ namespace Reaiot.Web.Constants
 {
     public class AfricasTalkingConstants
     {
