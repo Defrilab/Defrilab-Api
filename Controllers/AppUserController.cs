@@ -68,8 +68,13 @@ namespace  ReaiotBackend.Controllers
         [HttpGet("get/{email}")]
         public IActionResult GetUser(string  email)
         {
-            return Ok(_ReaiotDbContext.Users.FirstOrDefault(user =>
-                       user.Email == email));
+            var user = _ReaiotDbContext.Users.FirstOrDefault(user => user.Email == email);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            return NotFound($"User with email {email} not found in the database");
+           
         }
 
 
