@@ -29,6 +29,7 @@ namespace ReaiotBackend.Data
             await CreateRoleAsync(roleManager, Roles.Partner);
             await CreateRoleAsync(roleManager, Roles.Employee);
             await CreateRoleAsync(roleManager, Roles.Customer);
+        
         }
 
         private static async Task CreateRoleAsync(RoleManager<IdentityRole> 

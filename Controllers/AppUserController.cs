@@ -65,11 +65,11 @@ namespace  ReaiotBackend.Controllers
             return Ok(_ReaiotDbContext.Users);
         }
 
-        [HttpGet("get/{id}")]
-        public IActionResult GetUser(int id)
+        [HttpGet("get/{email}")]
+        public IActionResult GetUser(string  email)
         {
             return Ok(_ReaiotDbContext.Users.FirstOrDefault(user =>
-                       user.Id == id.ToString()));
+                       user.Email == email));
         }
 
 
