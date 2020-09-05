@@ -22,40 +22,34 @@ namespace  ReaiotBackend.Controllers
     [Authorize(AuthenticationSchemes = "Bearer")]
     public class UserController : Controller
     {
+        #region fields
         private SignInManager<AppUser> _signInManager;
         private ReaiotDbContext  _ReaiotDbContext;
         private readonly UserManager<AppUser> _userManager;
         private readonly AppSettings _appSettings;
-        
-        public UserController(SignInManager<AppUser> signInManager,
-                              ReaiotDbContext ReaiotDbContext ,
-                              IOptions<AppSettings> appSettings, 
-                               UserManager<AppUser> userManager
-                                          )
+        #endregion
+
+        public UserController(SignInManager<AppUser> signInManager, ReaiotDbContext ReaiotDbContext, IOptions<AppSettings> appSettings, UserManager<AppUser> userManager)
         {
             _signInManager = signInManager;
-            _ReaiotDbContext = ReaiotDbContext  ;
+            _ReaiotDbContext = ReaiotDbContext;
             _userManager = userManager;
             _appSettings = appSettings.Value;
         }
-
 
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]AppUser userEntity)
         {
             userEntity.TwoFactorEnabled = false;
-            var result = await _signInManager.UserManager
-                          .CreateAsync(userEntity, userEntity.PasswordHash);
+            var result = await _signInManager.UserManager.CreateAsync(userEntity, userEntity.PasswordHash);
             if (result.Succeeded)
             {
-                var user = await _signInManager.UserManager
-                               .FindByEmailAsync(userEntity.Email);
+                var user = await _signInManager.UserManager.FindByEmailAsync(userEntity.Email);
                 await _signInManager.UserManager.AddToRoleAsync(user, user.Role);
                 return Ok(user);
             }
-            return BadRequest($"Something went wrong, could not" +
-                $" Register the User with email {userEntity.Email}");
+            return BadRequest($"Something went wrong, could not Register the User with email {userEntity.Email}");
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = Roles.Admin)]
@@ -74,27 +68,34 @@ namespace  ReaiotBackend.Controllers
                 return Ok(user);
             }
             return NotFound($"User with email {email} not found in the database");
-           
         }
-
 
         [HttpPut("update")]
         public async Task<IActionResult> UpdateUser([FromBody]AppUser appUser)
         {
             if (ModelState.IsValid)
             {
-                var existingUser = _userManager.Users.FirstOrDefault(u =>
-                                        u.Id == appUser.Id);
+                var existingUser = _userManager.Users.FirstOrDefault(u => u.Id == appUser.Id);
                 if (existingUser != null)
                 {
+                    existingUser.Country = appUser.Country;
+                    existingUser.County = appUser.County;
+                    existingUser.DateOfBirth = appUser.DateOfBirth;
                     existingUser.Email = appUser.Email;
                     existingUser.FirstName = appUser.FirstName;
+                    existingUser.Institution = appUser.Institution;
+                    existingUser.IsSignedIn = appUser.IsSignedIn;
                     existingUser.LastName = appUser.LastName;
                     existingUser.NationalId = appUser.NationalId;
                     existingUser.PasswordHash = appUser.PasswordHash;
+                    existingUser.ProfilePhotoPath = appUser.ProfilePhotoPath;
+                    existingUser.Project = appUser.Project;
                     existingUser.PhoneNumber = appUser.PhoneNumber;
-                    existingUser.UserName = appUser.UserName;
                     existingUser.Role = appUser.Role;
+                    existingUser.TermsAndConditionsChecked = appUser.TermsAndConditionsChecked;
+                    existingUser.StudyLevel = appUser.StudyLevel;
+                    existingUser.UserName = appUser.UserName;
+                   
                     var result = await _userManager.UpdateAsync(existingUser);
                     if (result.Succeeded)
                     {
@@ -103,9 +104,7 @@ namespace  ReaiotBackend.Controllers
                     return Ok("User was changed, but unfortunately not saved");
                 }
                 return NotFound($"AppUser with email {appUser.Email} Not Found");
-
             }
-
             return BadRequest(ModelState);
         }
 
@@ -126,13 +125,10 @@ namespace  ReaiotBackend.Controllers
 
         [HttpPost("authenticateUser")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody]AuthAppUserDto
-                                                                    authDto)
+        public async Task<IActionResult> Authenticate([FromBody]AuthAppUserDto authDto)
         {
-            var user = await _signInManager.UserManager
-                                 .FindByEmailAsync(authDto.Email);
-            var result = await _signInManager.PasswordSignInAsync(user,
-                                 authDto.Password, false, false);
+            var user = await _signInManager.UserManager.FindByEmailAsync(authDto.Email);
+            var result = await _signInManager.PasswordSignInAsync(user, authDto.Password, false, false);
             if (result.Succeeded)
             {
                  var token = GenerateJwtToken(user);
@@ -151,21 +147,12 @@ namespace  ReaiotBackend.Controllers
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes
-                                                (_appSettings.Key));
-            var creds = new SigningCredentials(key, 
-                                     SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddHours(8);
-
-            var token = new JwtSecurityToken(
-                "Reaiot.com",
-                claims: claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Key));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMonths(1);
+            var token = new JwtSecurityToken("Reaiot.com", claims: claims, expires: expires, signingCredentials: creds);
+            
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

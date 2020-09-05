@@ -23,18 +23,16 @@ namespace ReaiotBackend
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<ReaiotDbContext>(options =>
-            options.UseSqlServer(Configuration
-            .GetConnectionString("DefaultConnection")));
+            services.AddDbContextPool<ReaiotDbContext>(options => options
+            .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
@@ -107,16 +105,24 @@ namespace ReaiotBackend
                 });
             });
 
+            services.AddTransient<IChangePasswordRepository, ChangePasswordRepository>();
+            services.AddTransient<IDevTrackLeaderRepository, DevTrackLeaderRepository>();
+            services.AddTransient<IDevTrackProjectRepository, DevTrackProjectRepository>();
+            services.AddTransient<IHelpRepository, HelpRepository>();
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IOfficeRepository, OfficeRepository>();
+            services.AddTransient<ISettingRepository, SettingRepository>();
+            services.AddTransient<ITrackTileDeviceRepository, TrackTileDeviceRepository>();
 
             services.AddControllers();         
             services.AddSignalR();
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
-                             UserManager<AppUser> userManager,
-                             RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app,
+                              IWebHostEnvironment env, 
+                              UserManager<AppUser> userManager,
+                              RoleManager<IdentityRole> roleManager)
         {
             IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())
@@ -131,16 +137,12 @@ namespace ReaiotBackend
                 c.RoutePrefix = string.Empty;
             });
             app.UseRouting();
-            app.UseCors(x => x
-             .AllowAnyOrigin()
-             .AllowAnyMethod()
-             .AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
                 endpoints.MapHub<AnnouncementsHub>("/announcementsHub");
                 endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapHub<NotificationsHub>("notificationsHub");

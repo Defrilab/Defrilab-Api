@@ -13,6 +13,7 @@ namespace  ReaiotBackend.Controllers
         {
             _repository = repository;
         }
+
         [HttpGet("all")]
         public virtual IActionResult GetAll()
         {
