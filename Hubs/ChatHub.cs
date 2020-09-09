@@ -1,13 +1,28 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using ReaiotBackend.Models;
 using System.Threading.Tasks;
 
 namespace ReaiotBackend.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string  name, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            // this method broadcasts the message to all Clients
+            await Clients.All.SendAsync("ReceiveMessage",  name, message);
+        }
+
+        public async Task SendFreeLearnMessage(AppUser appUser)
+        {
+            await Clients.All.SendAsync("ReceiveFreeLearnMessage", appUser);
+        }
+        public async Task SendReiotMobileMessage(AppUser appUser)
+        {
+            await Clients.All.SendAsync("SendReiotMobileMessage", appUser);
+        }
+        public async Task SendDevTrackMessage(AppUser appUser)
+        {
+            await Clients.All.SendAsync("ReceiveDevTrackMessage", appUser);
         }
         public async Task GroupMessage(string name, string message, string room)
         {
@@ -19,7 +34,7 @@ namespace ReaiotBackend.Hubs
         }
         public Task LeaveRoom(string roomName)
         {
-            return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+            return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
         }
     }
 }

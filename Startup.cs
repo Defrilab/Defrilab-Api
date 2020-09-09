@@ -144,7 +144,7 @@ namespace ReaiotBackend
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<AnnouncementsHub>("/announcementsHub");
-                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapHub<NotificationsHub>("notificationsHub");
 
             });
