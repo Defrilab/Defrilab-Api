@@ -1,0 +1,3 @@
+﻿Some good doc 
+	https://www.c-sharpcorner.com/blogs/eager-loading-in-repository-pattern-entity-framework-core
+	https://entityframeworkcore.com/knowledge-base/37463226/using-repository-pattern-to-eager-load-entities-using-theniclude
