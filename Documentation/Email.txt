@@ -1,0 +1,3 @@
+﻿Enabling access by less secure apps
+https://myaccount.google.com/lesssecureapps
+help - https://www.c-sharpcorner.com/article/emailservice/

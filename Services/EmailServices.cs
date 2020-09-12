@@ -12,10 +12,10 @@ namespace ReaiotBackend.Services
             var generatedcode = GeneratePasswordRecoveryCode();
             try
             {
-                var credentials = new NetworkCredential("humphryshikunzi9@gmail.com", "2288shiks");
+                var credentials = new NetworkCredential("reaiotorg@gmail.com", "magic@3.");
                 var mail = new MailMessage()
                 {
-                    From = new MailAddress("noreply@ReAIoT.com"),
+                    From = new MailAddress("reaiotorg@gmail.com"),
                     Subject = "Password Recovery",
                     Body = $"Your Password recovery code is {generatedcode}" ,
                     
