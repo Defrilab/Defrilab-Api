@@ -7,19 +7,19 @@ namespace ReaiotBackend.Services
     {
         // for things like user authentication using twilio sms client or AfricasTalking 
         
-        AfricasTalkingGateway gateway;
-        public MessageService()
-        {
-            gateway = new AfricasTalkingGateway(AfricasTalkingConstants.Username,
+        static AfricasTalkingGateway gateway = new AfricasTalkingGateway(AfricasTalkingConstants.Username,
                                                 AfricasTalkingConstants.Apikey,
                                                 AfricasTalkingConstants.Env);
+        public MessageService()
+        {
+           
         }
         
-        public void SendMessage(string  recepient, string message)
+         public static void SendMessage(string  recepient, string message)
         {
            
             var messageDemo = "Hello Africa, Jambo Kenya. Mko sawa Lakini?";
-           string recepientDemo = "+2540742267032";
+            string recepientDemo = "+254742267032";
             try
             {
                 var sms = gateway.SendMessage(recepientDemo,   messageDemo);
