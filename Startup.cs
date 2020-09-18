@@ -113,6 +113,7 @@ namespace ReaiotBackend
             services.AddTransient<IOfficeRepository, OfficeRepository>();
             services.AddTransient<ISettingRepository, SettingRepository>();
             services.AddTransient<ITrackTileDeviceRepository, TrackTileDeviceRepository>();
+            services.AddTransient<ICmappTasksRepository,  CmappTasksRepository>();
 
             services.AddControllers();         
             services.AddSignalR();

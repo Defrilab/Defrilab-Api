@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ReaiotBackend.Models;
 using ReaiotBackend.Models.DevTrackModels;
+using ReaiotBackend.Models.DSAIL;
 using ReaiotBackend.Models.FreeLearnModels;
 using ReaiotBackend.Models.ReiotModels.TrackTileModels;
 
@@ -22,6 +23,7 @@ namespace ReaiotBackend.Data
         public DbSet<Office> Offices { get; set; }
         public  DbSet<Setting> Settings { get; set; }
         public  DbSet<TrackTileDevice>  Devices { get; set; }
+        public DbSet<CmappTask> CmappTasks { get; set; }
 
         //will seed some users here as well, apart from the IdentityDbContext
     }

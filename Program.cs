@@ -8,9 +8,8 @@ namespace ReaiotBackend
     {
         public static void Main(string[] args)
         {
-            MessageService.SendMessage("", "");
-            CreateHostBuilder(args).Build().Run();
-          
+           // MessageService.SendMessage("", "");
+            CreateHostBuilder(args).Build().Run();          
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
