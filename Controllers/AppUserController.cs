@@ -14,8 +14,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace  ReaiotBackend.Controllers
+namespace ReaiotBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -47,7 +46,8 @@ namespace  ReaiotBackend.Controllers
             {
                 var user = await _signInManager.UserManager.FindByEmailAsync(userEntity.Email);
                 await _signInManager.UserManager.AddToRoleAsync(user, user.Role);
-                return Ok(user);
+                var token = GenerateJwtToken(user);
+                return Ok(token);
             }
             return BadRequest($"Something went wrong, could not Register the User with email {userEntity.Email}");
         }
@@ -111,16 +111,14 @@ namespace  ReaiotBackend.Controllers
         [HttpDelete("delete")]
         public IActionResult DeleteUser(int id)
         {
-            var user = _ReaiotDbContext.Users.FirstOrDefault(user => 
-                                   user.Id == id.ToString());
+            var user = _ReaiotDbContext.Users.FirstOrDefault(user => user.Id == id.ToString());
             if (user != null)
             {
                 _ReaiotDbContext.Remove(user);
                 _ReaiotDbContext.SaveChanges();
                 return Ok(user);
             }
-            return BadRequest($"Error, could not delete the user with id {id}." +
-                            $" The user is not found in the system,");
+            return BadRequest($"Error, could not delete the user with id {id}. The user is not found in the system.");
         }
 
         [HttpPost("authenticateUser")]
