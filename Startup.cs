@@ -82,7 +82,42 @@ namespace ReaiotBackend
             #region Swagger UI
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reaiot", Version = "v1" });
+                c.SwaggerDoc("v1",
+                    new OpenApiInfo
+                    {
+                        Title = "Reaiot",
+                        Version = "v1",
+                        Contact = new OpenApiContact()
+                        {
+                            Email = "reaiotorg@gmail.com",
+                            Name = "infor reaiot support",
+                            // change this to a better uri
+                            Url = new Uri("http://reaiot.com/"),
+                            
+                        },
+
+                        //change this to valid uri
+                        TermsOfService = new Uri("http://reaiot.com/"),
+
+                        // change this to better license
+                        License = new OpenApiLicense()
+                        {
+                            Name = "MIT Licence",
+                            Url = new Uri("http://reaiot.com/")
+                        },
+                        Description = "This Swagger  UI is for documentation for all Reaiot " +
+                                      "services that need backend, either data storage like Mobile apps, " +
+                                      "email services for communication with our customers and partners, " +
+                                      "messaging services and solutions that require analysis like computer " +
+                                      "vision or Natural Language Processing. To use the API, create an account " +
+                                      "in the User section at ' /api/User/register'. Copy the response string and click on the 'Authorize' " +
+                                      "button just below this documentation. If you already have an account created, " +
+                                      "go to '/api/User/authenticateUser' part of the User section. Click on 'Try it out', insert your " +
+                                      "email and password without changing anything else. Click on Authorize " +
+                                      "button below this documentation. In the box(entry) provided insert the token " +
+                                      "in the format 'Bearer tokenitself', click on Authorize, then close and start using the service. " +
+                                      "Cheers with Reaiot!"
+                    }) ;
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 

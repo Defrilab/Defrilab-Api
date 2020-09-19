@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ReaiotBackend.Constants;
@@ -107,6 +108,36 @@ namespace ReaiotBackend.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAppUser(string id, AppUser appUser)
+        {
+            if (id != appUser.Id)
+            {
+                return BadRequest();
+            }
+
+             _ReaiotDbContext.Entry(appUser).State = EntityState.Modified;
+
+            try
+            {
+                await _ReaiotDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (! _ReaiotDbContext.Users.Any(u => u.Id == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
 
         [HttpDelete("delete")]
         public IActionResult DeleteUser(int id)
