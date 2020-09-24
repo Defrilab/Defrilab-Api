@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ReaiotBackend.Hubs.DSAILHub;
 #endregion
 
 
@@ -212,6 +213,9 @@ namespace ReaiotBackend
                 endpoints.MapHub<AnnouncementsHub>("/announcementsHub");
                 endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapHub<NotificationsHub>("notificationsHub");
+
+                // DSail Messages
+                endpoints.MapHub<CMappChatHub>("/cmappMessage");
 
             });
             app.Run(async (context) => await Task.Run(() => context.Response.Redirect("/swagger")));
