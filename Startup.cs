@@ -212,7 +212,7 @@ namespace ReaiotBackend
                 endpoints.MapControllers();
                 endpoints.MapHub<AnnouncementsHub>("/announcementsHub");
                 endpoints.MapHub<ChatHub>("/chatHub");
-                endpoints.MapHub<NotificationsHub>("notificationsHub");
+                endpoints.MapHub<NotificationsHub>("/notificationsHub");
 
                 // DSail Messages
                 endpoints.MapHub<CMappChatHub>("/cmappMessage");
