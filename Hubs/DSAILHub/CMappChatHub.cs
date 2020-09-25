@@ -8,7 +8,7 @@ namespace ReaiotBackend.Hubs.DSAILHub
     {
         public async Task SendCMappMessage(string name, CmappMessage message)
         {
-            await Clients.All.SendAsync("ReceiveCMappMessage",name, message);
+            await Clients.All.SendAsync("ReceiveCMappMessage", name, message);
         }
     }
 }
