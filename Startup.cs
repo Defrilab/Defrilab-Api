@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ReaiotBackend.Hubs.DSAILHub;
+using ReaiotBackend.IRepositories.IDSAILRepositories.IDSAILCMappRepositories;
+using ReaiotBackend.Repositories.DSAILRepositories;
 #endregion
 
 
@@ -180,6 +182,7 @@ namespace ReaiotBackend
 
             #region CMapp  Services
             services.AddTransient<ICmappTasksRepository, CmappTasksRepository>();
+            services.AddTransient<ICMappEmployeesRepository, CMappEmployeesRepository>();
             #endregion
 
             #region other single line services

@@ -1,6 +1,6 @@
 ﻿namespace ReaiotBackend.Models.DSAIL
 {
-    public class Employee : BaseModel
+    public class CMappEmployee : BaseModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

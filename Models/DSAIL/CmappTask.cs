@@ -6,6 +6,6 @@
         public string Description { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
-        public string IsTaskRepeated { get; set; }
+        public  bool IsTaskRepeated { get; set; }
     }
 }

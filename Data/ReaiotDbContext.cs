@@ -23,9 +23,13 @@ namespace ReaiotBackend.Data
         public DbSet<Office> Offices { get; set; }
         public  DbSet<Setting> Settings { get; set; }
         public  DbSet<TrackTileDevice>  Devices { get; set; }
+
+        #region DSAIL DbSets
         public DbSet<CmappTask> CmappTasks { get; set; }
+        public DbSet<CMappEmployee> CMappEmployees { get; set; }
+        #endregion
 
         //will seed some users here as well, apart from the IdentityDbContext
     }
-   
+
 }

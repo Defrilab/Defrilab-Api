@@ -6,8 +6,7 @@ namespace ReaiotBackend.Repositories
 {
     public class OfficeRepository : BaseRepository<Office>, IOfficeRepository
     {
-        public OfficeRepository(ReaiotDbContext reaiotDbContext) : 
-                                                     base(reaiotDbContext)
+        public OfficeRepository(ReaiotDbContext reaiotDbContext) : base(reaiotDbContext)
         {
 
         }
