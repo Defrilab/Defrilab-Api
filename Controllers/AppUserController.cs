@@ -71,45 +71,8 @@ namespace ReaiotBackend.Controllers
             return NotFound($"User with email {email} not found in the database");
         }
 
-        [HttpPut("update")]
-        public async Task<IActionResult> UpdateUser([FromBody]AppUser appUser)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingUser = _userManager.Users.FirstOrDefault(u => u.Id == appUser.Id);
-                if (existingUser != null)
-                {
-                    existingUser.Country = appUser.Country;
-                    existingUser.County = appUser.County;
-                    existingUser.DateOfBirth = appUser.DateOfBirth;
-                    existingUser.Email = appUser.Email;
-                    existingUser.FirstName = appUser.FirstName;
-                    existingUser.Institution = appUser.Institution;
-                    existingUser.IsSignedIn = appUser.IsSignedIn;
-                    existingUser.LastName = appUser.LastName;
-                    existingUser.NationalId = appUser.NationalId;
-                    existingUser.PasswordHash = appUser.PasswordHash;
-                    existingUser.ProfilePhotoPath = appUser.ProfilePhotoPath;
-                    existingUser.Project = appUser.Project;
-                    existingUser.PhoneNumber = appUser.PhoneNumber;
-                    existingUser.Role = appUser.Role;
-                    existingUser.TermsAndConditionsChecked = appUser.TermsAndConditionsChecked;
-                    existingUser.StudyLevel = appUser.StudyLevel;
-                    existingUser.UserName = appUser.UserName;
-                   
-                    var result = await _userManager.UpdateAsync(existingUser);
-                    if (result.Succeeded)
-                    {
-                        return Ok(existingUser);
-                    }
-                    return Ok("User was changed, but unfortunately not saved");
-                }
-                return NotFound($"AppUser with email {appUser.Email} Not Found");
-            }
-            return BadRequest(ModelState);
-        }
-
-        [HttpPut("{id}")]
+        
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> PutAppUser(string id, AppUser appUser)
         {
             if (id != appUser.Id)
@@ -178,7 +141,7 @@ namespace ReaiotBackend.Controllers
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMonths(1);
+            var expires = DateTime.Now.AddDays(30);
             var token = new JwtSecurityToken("Reaiot.com", claims: claims, expires: expires, signingCredentials: creds);
             
             return new JwtSecurityTokenHandler().WriteToken(token);
