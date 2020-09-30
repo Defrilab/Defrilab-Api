@@ -6,13 +6,8 @@ namespace ReaiotBackend.Services
 {
     public class BlobStorageService
     {
-        public IConfiguration Configuration { get;  }
-        public BlobStorageService(IConfiguration configuration)
-        {
-            Configuration = configuration;
-            GetCredentials();
-        }
-        private object GetCredentials()
+        private IConfiguration Configuration { get;  }
+        public string GetCredentials()
         {
             var reaiotConfiguration =  Configuration.GetSection("ReaiotBlobStorageDetails");
             var reaiotCredentials = reaiotConfiguration.Get<ReaiotCredentials>();
@@ -23,7 +18,7 @@ namespace ReaiotBackend.Services
                 ConnectionString1 = connectionString, 
                 Key1 = key1 
             };
-            return credentials;
+            return credentials.ConnectionString1;
         }
     }
 }

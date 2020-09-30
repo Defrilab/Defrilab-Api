@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.WindowsAzure.Storage;
+using ReaiotBackend.Constants;
 using ReaiotBackend.Data;
 using ReaiotBackend.Dtos;
 using ReaiotBackend.Services;
+using System;
 
 namespace ReaiotBackend.Controllers
 {
@@ -16,7 +19,7 @@ namespace ReaiotBackend.Controllers
         }
                 
         [HttpPost("ResetPassword")]
-        public  IActionResult PostChangePasswordDto([FromBody]ChangePasswordDto changePasswordDto)
+        public  IActionResult ChangePasswordDto([FromBody]ChangePasswordDto changePasswordDto)
         {
             if (ModelState.IsValid)
             {
@@ -24,6 +27,24 @@ namespace ReaiotBackend.Controllers
                 return  Ok(code);
             }
             return BadRequest($"Could not send password recovery code to user with email {changePasswordDto.Email}");
+        }
+        [HttpPost("Images")]
+        public  IActionResult StoreBlob([FromBody]BlobItemDto blobItemDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Request Parameters");
+            }
+            var blobStorageService = new BlobStorageService();
+            var connectionString = blobStorageService.GetCredentials();
+            var account = CloudStorageAccount.Parse(connectionString);
+            var blobClient = account.CreateCloudBlobClient();
+            var container = blobClient.GetContainerReference(AppConstants.ContainerName);
+            string uniqueName = Guid.NewGuid().ToString();
+            var userKey = blobItemDto.ProjectName;
+            var blockBlob = container.GetBlockBlobReference($"{userKey}{uniqueName}.jpg");
+            blockBlob.UploadFromStreamAsync(blobItemDto.TakenImage);
+            return Ok(blockBlob.Uri.OriginalString);
         }
     }
 }
