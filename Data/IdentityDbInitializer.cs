@@ -7,8 +7,7 @@ namespace ReaiotBackend.Data
 {
     public class IdentityDbInitializer
     {
-        public static async Task SeedData(UserManager<AppUser> userManager,
-                                          RoleManager<IdentityRole> roleManager)
+        public static async Task SeedData(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             await SeedRoles(roleManager);
             await SeedUsers(userManager);
@@ -18,8 +17,7 @@ namespace ReaiotBackend.Data
         {
             foreach (var  appUser in AdminUsers.Admins)
             {
-                await CreateUserAsync(userManager,  
-                                      appUser, appUser.PasswordHash);
+                await CreateUserAsync(userManager, appUser, appUser.PasswordHash);
             }
         }
 
@@ -32,8 +30,7 @@ namespace ReaiotBackend.Data
         
         }
 
-        private static async Task CreateRoleAsync(RoleManager<IdentityRole> 
-                          roleManager, string roleName)
+        private static async Task CreateRoleAsync(RoleManager<IdentityRole> roleManager, string roleName)
         {
 
             if (!await roleManager.RoleExistsAsync(roleName))
@@ -46,13 +43,11 @@ namespace ReaiotBackend.Data
             }
         }
 
-        private static async Task CreateUserAsync(UserManager<AppUser> userManager,
-                                                     AppUser user, string password)
+        private static async Task CreateUserAsync(UserManager<AppUser> userManager, AppUser user, string password)
         {
             if (await userManager.FindByEmailAsync(user.Email) == null)
             {
-                IdentityResult result = await userManager
-                                              .CreateAsync(user, password);
+                IdentityResult result = await userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
                 {

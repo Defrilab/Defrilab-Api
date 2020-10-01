@@ -23,6 +23,7 @@ namespace ReaiotBackend.Data
         public DbSet<Office> Offices { get; set; }
         public  DbSet<Setting> Settings { get; set; }
         public  DbSet<TrackTileDevice>  Devices { get; set; }
+        public  DbSet<CmappTaskAssign>  CmappTaskAssigns { get; set; }
 
         #region DSAIL DbSets
         public DbSet<CmappTask> CmappTasks { get; set; }

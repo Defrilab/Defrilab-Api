@@ -183,6 +183,7 @@ namespace ReaiotBackend
             #region CMapp  Services
             services.AddTransient<ICmappTasksRepository, CmappTasksRepository>();
             services.AddTransient<ICMappEmployeesRepository, CMappEmployeesRepository>();
+            services.AddTransient<ICMappTaskAssignsRepository, CMappTaskAssignsRepository>();
             #endregion
 
             #region other single line services
@@ -193,7 +194,7 @@ namespace ReaiotBackend
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
+           // IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
