@@ -170,12 +170,6 @@ namespace ReaiotBackend
             services.AddTransient<IChangePasswordRepository, ChangePasswordRepository>();
             #endregion
 
-
-            #region DevTrack Services
-            services.AddTransient<IDevTrackLeaderRepository, DevTrackLeaderRepository>();
-            services.AddTransient<IDevTrackProjectRepository, DevTrackProjectRepository>();
-            #endregion
-
             #region TrackTile Services
             services.AddTransient<ITrackTileDeviceRepository, TrackTileDeviceRepository>();
             #endregion
@@ -184,6 +178,10 @@ namespace ReaiotBackend
             services.AddTransient<ICmappTasksRepository, CmappTasksRepository>();
             services.AddTransient<ICMappEmployeesRepository, CMappEmployeesRepository>();
             services.AddTransient<ICMappTaskAssignsRepository, CMappTaskAssignsRepository>();
+            services.AddTransient<ICmappMessageRepository, CMappMessageRepository>();
+            services.AddTransient<ICmappFertilizerRepository, CMappFertilizerRepository>();
+            services.AddTransient<ICMappHerbicideRepository, CMappHerbicideRepository>();
+            services.AddTransient<ICmappSeedlingRepository, CMappSeedlingRepository>();
             #endregion
 
             #region other single line services

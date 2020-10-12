@@ -2,7 +2,7 @@
 
 namespace ReaiotBackend.Models.DSAIL
 {
-    public class CmappMessage
+    public class CmappMessage : BaseModel
     {
         public  string AttachementUrl { get; set; }
         public  bool IsIncoming { get; set; }
