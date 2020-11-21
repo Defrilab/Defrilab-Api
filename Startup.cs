@@ -192,7 +192,7 @@ namespace ReaiotBackend
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-           // IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
+            IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
