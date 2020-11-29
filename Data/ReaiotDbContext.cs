@@ -4,6 +4,7 @@ using ReaiotBackend.Models;
 using ReaiotBackend.Models.DSAIL;
 using ReaiotBackend.Models.FreeLearnModels;
 using ReaiotBackend.Models.ReiotModels.TrackTileModels;
+using ReaiotBackend.Models.TtnTest;
 
 namespace ReaiotBackend.Data
 {
@@ -13,6 +14,7 @@ namespace ReaiotBackend.Data
         {
 
         }
+        public  DbSet<TttnTestData>  TttnTestData { get; set; }
         #region Reaiot Fields
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<ChangePassword> ChangePasswords { get; set; }
@@ -33,6 +35,7 @@ namespace ReaiotBackend.Data
         public DbSet<CmappTaskAssign> CmappTaskAssigns { get; set; }
         #endregion
 
+        
         //will seed some users here as well, apart from the IdentityDbContext
     }
 

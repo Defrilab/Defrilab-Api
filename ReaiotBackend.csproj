@@ -5,6 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\FocusModels\**" />
+    <Compile Remove="Models\FreeLearnModels\**" />
+    <Compile Remove="Models\MedicalAppModels\**" />
+    <Content Remove="Models\FocusModels\**" />
+    <Content Remove="Models\FreeLearnModels\**" />
+    <Content Remove="Models\MedicalAppModels\**" />
+    <EmbeddedResource Remove="Models\FocusModels\**" />
+    <EmbeddedResource Remove="Models\FreeLearnModels\**" />
+    <EmbeddedResource Remove="Models\MedicalAppModels\**" />
+    <None Remove="Models\FocusModels\**" />
+    <None Remove="Models\FreeLearnModels\**" />
+    <None Remove="Models\MedicalAppModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="ReaiotBackend.csproj" />
     <None Include="ReaiotBackend.csproj.user" />
   </ItemGroup>
@@ -24,12 +39,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\FreeLearnModels\" />
-    <Folder Include="Models\FocusModels\" />
-    <Folder Include="Models\MedicalAppModels\" />
   </ItemGroup>
 
 </Project>

@@ -188,11 +188,13 @@ namespace ReaiotBackend
             services.AddControllers();         
             services.AddSignalR();
             #endregion
+
+            services.AddTransient<ITtntestRepository, TtntestRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
+          //  IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
