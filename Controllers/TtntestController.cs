@@ -30,7 +30,7 @@ namespace ReaiotBackend.Controllers
                 {
                     From = new MailAddress("reaiotorg@gmail.com"),
                     Subject = "ttn_data test",
-                    Body = $"The simulated ttn data is {tttnTestData.app_id}",
+                    Body = $"The simulated ttn data is {tttnTestData}",
 
                 };
                 mail.IsBodyHtml = true;
@@ -46,7 +46,7 @@ namespace ReaiotBackend.Controllers
                 };
 
                 client.Send(mail);
-                return Ok(tttnTestData.app_id);
+                return Ok(tttnTestData);
             }
             catch (Exception e)
             {
