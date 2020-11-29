@@ -188,6 +188,7 @@ namespace ReaiotBackend
             services.AddControllers();         
             services.AddSignalR();
             #endregion
+            // this is the test for ttn data.
 
             services.AddTransient<ITtntestRepository, TtntestRepository>();
         }
