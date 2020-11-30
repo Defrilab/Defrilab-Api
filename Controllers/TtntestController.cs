@@ -30,7 +30,8 @@ namespace ReaiotBackend.Controllers
                 {
                     From = new MailAddress("reaiotorg@gmail.com"),
                     Subject = "ttn_data test",
-                    Body = $"The simulated ttn data is {tttnTestData} from the things network",
+                    Body = $"The simulated ttn data is {tttnTestData.app_id} from the things network",
+                    // now should send the app id
 
                 };
                 mail.IsBodyHtml = true;
