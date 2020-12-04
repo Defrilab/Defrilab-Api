@@ -14,9 +14,17 @@ namespace ReaiotBackend.Controllers
     {
         private readonly ReaiotDbContext _context;
        public ServicesController(ReaiotDbContext context)
-        {
-            _context = context;
-        }
+       {
+           _context = context;
+       }
+
+        [HttpPost("SendMessage")]
+       public IActionResult SendMessage(string recepient, string message)
+       {
+
+           MessageService.SendMessage(recepient, message);
+           return Ok(message);
+       }
                 
         [HttpPost("ResetPassword")]
         public  IActionResult ChangePasswordDto([FromBody]ChangePasswordDto changePasswordDto)
@@ -28,6 +36,7 @@ namespace ReaiotBackend.Controllers
             }
             return BadRequest($"Could not send password recovery code to user with email {changePasswordDto.Email}");
         }
+
         [HttpPost("Images")]
         public  IActionResult StoreBlob([FromBody]BlobItemDto blobItemDto)
         {

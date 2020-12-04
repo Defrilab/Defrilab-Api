@@ -1,6 +1,6 @@
 ﻿namespace ReaiotBackend.Models.TtnTest
 {
-     public class gateways 
+     public class gateways : BaseModel
     {
         public  string gtw_id { get; set; }
         public int timestamp { get; set; }

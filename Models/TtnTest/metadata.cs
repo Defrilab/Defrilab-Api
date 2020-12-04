@@ -2,7 +2,7 @@
 
 namespace ReaiotBackend.Models
 {
-    public class metadata 
+    public class metadata  : BaseModel
     {
         public  string time { get; set; }
         public  double frequency { get; set; }

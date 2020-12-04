@@ -1,4 +1,3 @@
-#region Nuget Packages
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,10 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using ReaiotBackend.Hubs.DSAILHub;
-using ReaiotBackend.IRepositories.IDSAILRepositories.IDSAILCMappRepositories;
-using ReaiotBackend.Repositories.DSAILRepositories;
-#endregion
 
 
 namespace ReaiotBackend
@@ -39,8 +34,6 @@ namespace ReaiotBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<ReaiotDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            #region IdentityUser
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -52,9 +45,7 @@ namespace ReaiotBackend
             })
               .AddEntityFrameworkStores<ReaiotDbContext>()
               .AddDefaultTokenProviders();
-            #endregion
 
-            #region section for working with jwt tokens
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
             var appSettings = appSettingsSection.Get<AppSettings>();
@@ -80,9 +71,7 @@ namespace ReaiotBackend
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            #endregion
 
-            #region Swagger UI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1",
@@ -150,9 +139,7 @@ namespace ReaiotBackend
                     }
                 });
             });
-            #endregion
 
-            #region Rate Limiter
             services.AddOptions();
             services.AddMemoryCache();
             services.Configure<IpRateLimitOptions>(Configuration.GetSection("IPRateLimit"));
@@ -160,42 +147,22 @@ namespace ReaiotBackend
             services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
             services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
             services.AddHttpContextAccessor();
-            #endregion
 
-            #region Reaiot Services
             services.AddTransient<IHelpRepository, HelpRepository>();
             services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddTransient<IOfficeRepository, OfficeRepository>();
             services.AddTransient<ISettingRepository, SettingRepository>();
-            services.AddTransient<IChangePasswordRepository, ChangePasswordRepository>();
-            #endregion
+            services.AddTransient<IChangePasswordRepository, ChangePasswordRepository>();   
 
-            #region TrackTile Services
-            services.AddTransient<ITrackTileDeviceRepository, TrackTileDeviceRepository>();
-            #endregion
-
-            #region CMapp  Services
-            services.AddTransient<ICmappTasksRepository, CmappTasksRepository>();
-            services.AddTransient<ICMappEmployeesRepository, CMappEmployeesRepository>();
-            services.AddTransient<ICMappTaskAssignsRepository, CMappTaskAssignsRepository>();
-            services.AddTransient<ICmappMessageRepository, CMappMessageRepository>();
-            services.AddTransient<ICmappFertilizerRepository, CMappFertilizerRepository>();
-            services.AddTransient<ICMappHerbicideRepository, CMappHerbicideRepository>();
-            services.AddTransient<ICmappSeedlingRepository, CMappSeedlingRepository>();
-            #endregion
-
-            #region other single line services
             services.AddControllers();         
             services.AddSignalR();
-            #endregion
-            // this is the test for ttn data.
 
             services.AddTransient<ITtntestRepository, TtntestRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-          //  IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
+            IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -218,10 +185,6 @@ namespace ReaiotBackend
                 endpoints.MapHub<AnnouncementsHub>("/announcementsHub");
                 endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapHub<NotificationsHub>("/notificationsHub");
-
-                // DSail Messages
-                endpoints.MapHub<CMappChatHub>("/cmappMessage");
-
             });
             app.Run(async (context) => await Task.Run(() => context.Response.Redirect("/swagger")));
         }

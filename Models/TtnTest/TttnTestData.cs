@@ -2,7 +2,7 @@
 
 namespace ReaiotBackend.Models
 {
-    public class TttnTestData
+    public class TttnTestData : BaseModel
     {
         public  string app_id { get; set; }
         public  string dev_id { get; set; }

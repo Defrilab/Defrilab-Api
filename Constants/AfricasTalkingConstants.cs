@@ -3,7 +3,7 @@
     public class AfricasTalkingConstants
     {
        public const string Username = "sandbox";
-       public const string Apikey = "016f5ed4feb94a48990e7eaab6cab6c18f54810acd88f7705335a14616b4d63a";
+       public const string Apikey = "b179bfe3e2475016a48b00b1d21267f9c49a43a09297f50cfbe822106e916307";
        public const string Env = "sandbox";
     }
 }

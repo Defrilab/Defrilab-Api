@@ -15,10 +15,7 @@ namespace ReaiotBackend.Data
 
         public static async Task SeedUsers(UserManager<AppUser> userManager)
         {
-            foreach (var  appUser in AdminUsers.Admins)
-            {
-                await CreateUserAsync(userManager, appUser, appUser.PasswordHash);
-            }
+            await CreateUserAsync(userManager, AdminUsers.Admins, AdminUsers.Admins.PasswordHash);
         }
 
         public static async Task SeedRoles(RoleManager<IdentityRole> roleManager)

@@ -1,6 +1,6 @@
 ﻿namespace ReaiotBackend.Models.TtnTest
 {
-    public class payload_fields 
+    public class payload_fields  : BaseModel
     {
     }
 }
