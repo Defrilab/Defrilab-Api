@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using ReaiotBackend.Services;
 
 namespace ReaiotBackend
 {
@@ -8,7 +7,6 @@ namespace ReaiotBackend
     {
         public static void Main(string[] args)
         {
-           // MessageService.SendMessage("", "");
             CreateHostBuilder(args).Build().Run();          
         }
 

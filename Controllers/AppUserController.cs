@@ -15,7 +15,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-namespace ReaiotBackend.Controllers
+
+namespace AfriLearnBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -23,17 +24,16 @@ namespace ReaiotBackend.Controllers
     public class UserController : Controller
     {
         #region fields
-        private SignInManager<AppUser> _signInManager;
-        private ReaiotDbContext  _ReaiotDbContext;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly ReaiotDbContext _reaiotDbContext;
         private readonly AppSettings _appSettings;
         #endregion
 
-        public UserController(SignInManager<AppUser> signInManager, ReaiotDbContext ReaiotDbContext, IOptions<AppSettings> appSettings, UserManager<AppUser> userManager)
+        public UserController(SignInManager<AppUser> signInManager, ReaiotDbContext dbContext, 
+                                        IOptions<AppSettings> appSettings, UserManager<AppUser> userManager)
         {
             _signInManager = signInManager;
-            _ReaiotDbContext = ReaiotDbContext;
-            _userManager = userManager;
+            _reaiotDbContext = dbContext;
             _appSettings = appSettings.Value;
         }
 
@@ -47,48 +47,42 @@ namespace ReaiotBackend.Controllers
             {
                 var user = await _signInManager.UserManager.FindByEmailAsync(userEntity.Email);
                 await _signInManager.UserManager.AddToRoleAsync(user, user.Role);
-                var token = GenerateJwtToken(user);
-                return Ok(token);
+                userEntity.AuthKey = GenerateJwtToken(user);
+                return Ok(userEntity);
             }
-            return BadRequest($"Something went wrong, could not Register the User with email {userEntity.Email}");
+            return BadRequest();
         }
 
         [Authorize(AuthenticationSchemes = "Bearer", Roles = Roles.Admin)]
         [HttpGet("getall")]
         public IActionResult GetUsers()
         {
-            return Ok(_ReaiotDbContext.Users);
+            return Ok(_reaiotDbContext.Users.Include(s => s.Setting));
         }
 
-        [HttpGet("get/{email}")]
-        public IActionResult GetUser(string  email)
+        [HttpGet("get/{id}")]
+        public IActionResult GetUser(string id)
         {
-            var user = _ReaiotDbContext.Users.FirstOrDefault(user => user.Email == email);
+            var user = _reaiotDbContext.Users.Include(s =>s.Setting).FirstOrDefault(user => user.Id == id);
             if (user != null)
             {
                 return Ok(user);
             }
-            return NotFound($"User with email {email} not found in the database");
+            return NotFound();
         }
 
-        
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> PutAppUser(string id, AppUser appUser)
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateUser(AppUser appUser)
         {
-            if (id != appUser.Id)
-            {
-                return BadRequest();
-            }
-
-             _ReaiotDbContext.Entry(appUser).State = EntityState.Modified;
+            _reaiotDbContext.Entry(appUser).State = EntityState.Modified;
 
             try
             {
-                await _ReaiotDbContext.SaveChangesAsync();
+                await _reaiotDbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (! _ReaiotDbContext.Users.Any(u => u.Id == id))
+                if (!_reaiotDbContext.Users.Any(u => u.Id == appUser.Id))
                 {
                     return NotFound();
                 }
@@ -97,37 +91,37 @@ namespace ReaiotBackend.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
+            return Ok(appUser);
         }
 
-
         [HttpDelete("delete")]
-        public IActionResult DeleteUser(int id)
+        public IActionResult Delete(string id)
         {
-            var user = _ReaiotDbContext.Users.FirstOrDefault(user => user.Id == id.ToString());
+            var user = _reaiotDbContext.Users.FirstOrDefault(user => user.Id == id);
             if (user != null)
             {
-                _ReaiotDbContext.Remove(user);
-                _ReaiotDbContext.SaveChanges();
+                _reaiotDbContext.Remove(user);
+                _reaiotDbContext.SaveChanges();
                 return Ok(user);
             }
-            return BadRequest($"Error, could not delete the user with id {id}. The user is not found in the system.");
+            return BadRequest();
         }
 
         [HttpPost("authenticateUser")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody]AuthAppUserDto authDto)
+        public async Task<IActionResult> Authenticate([FromBody]AuthDto  authDto)
         {
             var user = await _signInManager.UserManager.FindByEmailAsync(authDto.Email);
             var result = await _signInManager.PasswordSignInAsync(user, authDto.Password, false, false);
             if (result.Succeeded)
             {
-                 var token = GenerateJwtToken(user);
-                return Ok(token);
+                var userData =  _reaiotDbContext.Users.Include(s => s.Setting).FirstOrDefault(user => user.Email == authDto.Email);
+                userData.AuthKey = GenerateJwtToken(user);
+                return Ok(userData);
             }
-            return BadRequest("Username or passsword not correct");
+            return BadRequest();
         }
+
         private string GenerateJwtToken(AppUser user)
         {
             var claims = new List<Claim>
@@ -138,12 +132,10 @@ namespace ReaiotBackend.Controllers
                 new Claim(ClaimTypes.Name, user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role)
             };
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(30);
             var token = new JwtSecurityToken("Reaiot.com", claims: claims, expires: expires, signingCredentials: creds);
-            
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }

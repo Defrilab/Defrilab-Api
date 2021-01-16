@@ -33,7 +33,8 @@ namespace ReaiotBackend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<ReaiotDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContextPool<ReaiotDbContext>(options => 
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -83,19 +84,18 @@ namespace ReaiotBackend
                         {
                             Email = "reaiotorg@gmail.com",
                             Name = "infor reaiot support",
-                            // change this to a better uri
-                            Url = new Uri("http://reaiot.com/"),
+                            Url = new Uri("http://reaiot.com/contact"),
                             
                         },
 
                         //change this to valid uri
-                        TermsOfService = new Uri("http://reaiot.com/"),
+                        TermsOfService = new Uri("http://reaiot.com/legal/terms_conditions"),
 
                         // change this to better license
                         License = new OpenApiLicense()
                         {
                             Name = "MIT Licence",
-                            Url = new Uri("http://reaiot.com/")
+                            Url = new Uri("http://reaiot.com/legal/licence")
                         },
                         Description = "This Swagger  UI is for documentation for all Reaiot " +
                                       "services that need backend, either data storage like Mobile apps, " +
@@ -149,18 +149,14 @@ namespace ReaiotBackend
             services.AddHttpContextAccessor();
 
             services.AddTransient<IHelpRepository, HelpRepository>();
-            services.AddTransient<IMessageRepository, MessageRepository>();
-            services.AddTransient<IOfficeRepository, OfficeRepository>();
-            services.AddTransient<ISettingRepository, SettingRepository>();
-            services.AddTransient<IChangePasswordRepository, ChangePasswordRepository>();   
+            services.AddTransient<IMessagesRepository, MessagesRepository>();
 
             services.AddControllers();         
             services.AddSignalR();
-
-            services.AddTransient<ITtntestRepository, TtntestRepository>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, 
+                 UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             IdentityDbInitializer.SeedData(userManager, roleManager).Wait();
             if (env.IsDevelopment())

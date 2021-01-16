@@ -10,8 +10,8 @@ using ReaiotBackend.Data;
 namespace ReaiotBackend.Migrations
 {
     [DbContext(typeof(ReaiotDbContext))]
-    [Migration("20200915152115_SettingUpdate")]
-    partial class SettingUpdate
+    [Migration("20210116211412_InitialReaiotMigration")]
+    partial class InitialReaiotMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,17 +160,14 @@ namespace ReaiotBackend.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AuthKey")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DateOfBirth")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -180,26 +177,14 @@ namespace ReaiotBackend.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Institution")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsSignedIn")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NationalId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -230,8 +215,8 @@ namespace ReaiotBackend.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SettingId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TermsAndConditionsChecked")
                         .HasColumnType("bit");
@@ -253,6 +238,8 @@ namespace ReaiotBackend.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("SettingId");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -271,93 +258,6 @@ namespace ReaiotBackend.Migrations
                     b.ToTable("ChangePasswords");
                 });
 
-            modelBuilder.Entity("ReaiotBackend.Models.DevTrackModels.DevTrackLeader", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstDateInOffice")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PopularName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProfilePhotoPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Leaders");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.DevTrackModels.DevTrackProject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Leader")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProjectImage")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Sponsor")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TimeSpan")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.FreeLearnModels.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsAppNotificationsOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsMarkettingNotificationsOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsNightModeOn")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
-                });
-
             modelBuilder.Entity("ReaiotBackend.Models.Help", b =>
                 {
                     b.Property<int>("Id")
@@ -372,7 +272,8 @@ namespace ReaiotBackend.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HelpName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(64)");
 
                     b.Property<string>("ProblemLevel")
                         .HasColumnType("nvarchar(max)");
@@ -418,116 +319,25 @@ namespace ReaiotBackend.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ReaiotBackend.Models.Office", b =>
+            modelBuilder.Entity("ReaiotBackend.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsAppNotificationsOn")
+                        .HasColumnType("bit");
 
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
+                    b.Property<bool>("IsMarkettingNotificationsOn")
+                        .HasColumnType("bit");
 
-                    b.Property<double>("Lon")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Offices");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileDevice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("date_created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("date_modified")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("gateway_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("owner")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsNightModeOn")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Devices");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileSensor", b =>
-                {
-                    b.Property<string>("id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("TrackTileDeviceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("valueId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("TrackTileDeviceId");
-
-                    b.HasIndex("valueId");
-
-                    b.ToTable("TrackTileSensor");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("date_received")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("timestamp")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("value")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TrackTileValue");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.TrackTileModels.TrackTileActuator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("TrackTileDeviceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TrackTileDeviceId");
-
-                    b.ToTable("TrackTileActuator");
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -581,22 +391,11 @@ namespace ReaiotBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileSensor", b =>
+            modelBuilder.Entity("ReaiotBackend.Models.AppUser", b =>
                 {
-                    b.HasOne("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileDevice", null)
-                        .WithMany("sensors")
-                        .HasForeignKey("TrackTileDeviceId");
-
-                    b.HasOne("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileValue", "value")
+                    b.HasOne("ReaiotBackend.Models.Setting", "Setting")
                         .WithMany()
-                        .HasForeignKey("valueId");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.TrackTileModels.TrackTileActuator", b =>
-                {
-                    b.HasOne("ReaiotBackend.Models.ReiotModels.TrackTileModels.TrackTileDevice", null)
-                        .WithMany("actuators")
-                        .HasForeignKey("TrackTileDeviceId");
+                        .HasForeignKey("SettingId");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,9 +3,8 @@
     public class Projects
     {
         public const string Reaiot = "Reaiot";
-        public const string Menopause = "Menopause";
-        public const string FreeLearn = "FreeLearn";
-        public const string StudyTracker = "StudyTracker";
-        public const string DevTrack = "DevTrack";
+        public const string Tracktile = "Tracktile";
+        public const string Cafrilearn = "Cafrilearn";
+        public const string  Focus = "Focus";
     }
 }

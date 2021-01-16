@@ -158,17 +158,14 @@ namespace ReaiotBackend.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AuthKey")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("County")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DateOfBirth")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -178,26 +175,14 @@ namespace ReaiotBackend.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Institution")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsSignedIn")
                         .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NationalId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -228,8 +213,8 @@ namespace ReaiotBackend.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StudyLevel")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SettingId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TermsAndConditionsChecked")
                         .HasColumnType("bit");
@@ -251,6 +236,8 @@ namespace ReaiotBackend.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("SettingId");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -267,27 +254,6 @@ namespace ReaiotBackend.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChangePasswords");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.FreeLearnModels.Setting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsAppNotificationsOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsMarkettingNotificationsOn")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsNightModeOn")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("ReaiotBackend.Models.Help", b =>
@@ -351,172 +317,25 @@ namespace ReaiotBackend.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ReaiotBackend.Models.Office", b =>
+            modelBuilder.Entity("ReaiotBackend.Models.Setting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Lat")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Lon")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Offices");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.TtnTest.gateways", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("altitude")
-                        .HasColumnType("float");
-
-                    b.Property<int>("channel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("gtw_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("longitude")
-                        .HasColumnType("float");
-
-                    b.Property<int>("rf_chain")
-                        .HasColumnType("int");
-
-                    b.Property<int>("rssi")
-                        .HasColumnType("int");
-
-                    b.Property<int>("snr")
-                        .HasColumnType("int");
-
-                    b.Property<string>("time")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("timestamp")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("gateways");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.TtnTest.payload_fields", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("payload_fields");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.TttnTestData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("app_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("confirmed")
+                    b.Property<bool>("IsAppNotificationsOn")
                         .HasColumnType("bit");
 
-                    b.Property<int>("counter")
-                        .HasColumnType("int");
-
-                    b.Property<string>("dev_id")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("downlink_url")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("hardware_serial")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("is_retry")
+                    b.Property<bool>("IsMarkettingNotificationsOn")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("metadataId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("payload_fieldsId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("payload_raw")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("port")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsNightModeOn")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("metadataId");
-
-                    b.HasIndex("payload_fieldsId");
-
-                    b.ToTable("TttnTestData");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.metadata", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("altitude")
-                        .HasColumnType("float");
-
-                    b.Property<int>("bit_rate")
-                        .HasColumnType("int");
-
-                    b.Property<string>("coding_rate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("data_rate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("frequency")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("gatewaysId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("longitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("modulation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("time")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("gatewaysId");
-
-                    b.ToTable("metadata");
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -570,22 +389,11 @@ namespace ReaiotBackend.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ReaiotBackend.Models.TttnTestData", b =>
+            modelBuilder.Entity("ReaiotBackend.Models.AppUser", b =>
                 {
-                    b.HasOne("ReaiotBackend.Models.metadata", "metadata")
+                    b.HasOne("ReaiotBackend.Models.Setting", "Setting")
                         .WithMany()
-                        .HasForeignKey("metadataId");
-
-                    b.HasOne("ReaiotBackend.Models.TtnTest.payload_fields", "payload_fields")
-                        .WithMany()
-                        .HasForeignKey("payload_fieldsId");
-                });
-
-            modelBuilder.Entity("ReaiotBackend.Models.metadata", b =>
-                {
-                    b.HasOne("ReaiotBackend.Models.TtnTest.gateways", "gateways")
-                        .WithMany()
-                        .HasForeignKey("gatewaysId");
+                        .HasForeignKey("SettingId");
                 });
 #pragma warning restore 612, 618
         }

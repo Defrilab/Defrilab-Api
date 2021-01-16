@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using ReaiotBackend.Models;
 using System.Threading.Tasks;
 
 namespace ReaiotBackend.Hubs
@@ -12,18 +11,7 @@ namespace ReaiotBackend.Hubs
             await Clients.All.SendAsync("ReceiveMessage",  name, message);
         }
 
-        public async Task SendFreeLearnMessage(AppUser appUser)
-        {
-            await Clients.All.SendAsync("ReceiveFreeLearnMessage", appUser);
-        }
-        public async Task SendReiotMobileMessage(AppUser appUser)
-        {
-            await Clients.All.SendAsync("SendReiotMobileMessage", appUser);
-        }
-        public async Task SendDevTrackMessage(AppUser appUser)
-        {
-            await Clients.All.SendAsync("ReceiveDevTrackMessage", appUser);
-        }
+      
         public async Task GroupMessage(string name, string message, string room)
         {
             await Clients.Group(room).SendAsync(name, message);

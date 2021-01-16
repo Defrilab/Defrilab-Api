@@ -7,7 +7,8 @@ namespace ReaiotBackend.Services
     public class MessageService
     {
         
-        static AfricasTalkingGateway gateway = new AfricasTalkingGateway(AfricasTalkingConstants.Username, AfricasTalkingConstants.Apikey,  AfricasTalkingConstants.Env);
+        static AfricasTalkingGateway gateway = new AfricasTalkingGateway(AfricasTalkingConstants.Username, 
+                                                    AfricasTalkingConstants.Apikey,  AfricasTalkingConstants.Env);
       
         public static void SendMessage(string  recepient, string message)
         {

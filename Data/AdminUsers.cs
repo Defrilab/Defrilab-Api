@@ -9,7 +9,7 @@ namespace ReaiotBackend.Data
         {
             PasswordHash = "2288Shiks.",
             UserName = "Humphryshikunzi",
-            Email = "humphry97@outlook.com",
+            Email = "humphry.shikunzi@outlook.com",
             Role = Roles.Admin
         };
     }

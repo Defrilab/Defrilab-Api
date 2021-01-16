@@ -1,4 +1,4 @@
-﻿namespace ReaiotBackend.Models.FreeLearnModels
+﻿namespace ReaiotBackend.Models
 {
     public class Setting : BaseModel
     {
