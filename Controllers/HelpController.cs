@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReaiotBackend.IRepositories;
 using ReaiotBackend.Models;
 using System.Threading.Tasks;
@@ -8,7 +7,7 @@ namespace ReaiotBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(AuthenticationSchemes = "Bearer")]
+
     public class HelpController : ControllerBase
     {
         private readonly IHelpRepository _helpRepository;
