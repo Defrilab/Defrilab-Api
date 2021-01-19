@@ -11,5 +11,6 @@ namespace ReaiotBackend.Models
         public string DateOfReporting { get; set; }
         public string ProblemLevel { get; set; }
         public  string  Project { get; set; }
+        public  string  PhoneNumber { get; set; }
     }
 }
