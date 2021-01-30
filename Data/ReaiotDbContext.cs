@@ -12,7 +12,7 @@ namespace ReaiotBackend.Data
         }
 
         public DbSet<AppUser> AppUsers { get; set; }
-        public DbSet<ChangePassword> ChangePasswords { get; set; }
+        public DbSet<Subscriber> Subscribers { get; set; }
         public DbSet<Help> Help { get; set; }
         public DbSet<Message> Messages { get; set; }
         public  DbSet<Setting> Settings { get; set; }
