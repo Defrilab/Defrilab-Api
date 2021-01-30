@@ -9,7 +9,6 @@ namespace ReaiotBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = "Bearer")]
     public class ServicesController : ControllerBase
     {
         private readonly ReaiotDbContext _context;

@@ -6,10 +6,10 @@ namespace ReaiotBackend.IRepositories
 {
     public interface  ISubscriberRepository
     {
-        Task Add (Subscriber help);
+        Task Add (Subscriber subscriber);
         IEnumerable<Subscriber> GetAll();
-        Help GetById(int id);
+        Subscriber GetById(int id);
         Task Delete(int id);
-        Task Update(Subscriber help);
+        Task Update(Subscriber  subscriber);
     }
 }

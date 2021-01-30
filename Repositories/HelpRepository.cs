@@ -9,9 +9,9 @@ namespace ReaiotBackend.Repositories
     public class HelpRepository : IHelpRepository
     {
         private readonly ReaiotDbContext _reaiotDbContext;
-        public HelpRepository(ReaiotDbContext afriLearnDbContext)
+        public HelpRepository(ReaiotDbContext reaiotDbContext)
         {
-            _reaiotDbContext = afriLearnDbContext;
+            _reaiotDbContext = reaiotDbContext;
         } 
 
         public Task AddHelpRequest(Help help)

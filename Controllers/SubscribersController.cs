@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ReaiotBackend.IRepositories;
 using ReaiotBackend.Models;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace ReaiotBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [Authorize(AuthenticationSchemes = "Bearer")]
     public class SubscribersController : ControllerBase
     {
         private readonly  ISubscriberRepository _subscriberRepository;
@@ -16,8 +17,8 @@ namespace ReaiotBackend.Controllers
             _subscriberRepository = subscriberRepository;
         }
 
-
         [HttpPost("add")]
+        [AllowAnonymous]
         public async Task<ActionResult> Add(Subscriber subscriber)
         {
             if (ModelState.IsValid)
@@ -38,20 +39,10 @@ namespace ReaiotBackend.Controllers
         public ActionResult GetById(int id)
         {
             return Ok(_subscriberRepository.GetById(id));
-        }
-
-        [HttpPut("update")]
-        public async Task<ActionResult> Update(Subscriber  subscriber)
-        {
-            if (ModelState.IsValid)
-            {
-                await _subscriberRepository.Update(subscriber);
-                return Ok(subscriber);
-            }
-            return BadRequest();
-        }
+        }       
 
         [HttpDelete("delete/{id}")]
+        [AllowAnonymous]
         public ActionResult Delete(int id)
         {
             var help = _subscriberRepository.GetById(id);

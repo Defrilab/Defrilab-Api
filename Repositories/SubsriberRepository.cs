@@ -9,9 +9,9 @@ namespace ReaiotBackend.Repositories
     public class SubscriberRepository :  ISubscriberRepository
     {
         private readonly ReaiotDbContext _reaiotDbContext;
-        public SubscriberRepository(ReaiotDbContext afriLearnDbContext)
+        public SubscriberRepository(ReaiotDbContext reaiotDbContext)
         {
-            _reaiotDbContext = afriLearnDbContext;
+            _reaiotDbContext = reaiotDbContext;
         } 
 
         public Task Add(Subscriber subscriber)
@@ -25,9 +25,9 @@ namespace ReaiotBackend.Repositories
             _reaiotDbContext.Remove(_reaiotDbContext.Subscribers.Find(id));
             return _reaiotDbContext.SaveChangesAsync();
         }
-        public Help GetById(int id)
+        public Subscriber GetById(int id)
         {
-            return _reaiotDbContext.Help.Find(id);
+            return _reaiotDbContext.Subscribers.Find(id);
         }
 
         public IEnumerable<Subscriber> GetAll()
