@@ -8,21 +8,21 @@ namespace ReaiotBackend.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class  MeetBookingController : ControllerBase
+    public class  AppointmentsController : ControllerBase
     {
-        private readonly IMeetBookingRepository  _meetBookingRepository;
-        public MeetBookingController(IMeetBookingRepository  meetBookingRepository)
+        private readonly IAppointmentRepository  _appointmentRepository;
+        public AppointmentsController(IAppointmentRepository  meetBookingRepository)
         {
-             _meetBookingRepository =  meetBookingRepository;
+             _appointmentRepository =  meetBookingRepository;
         }
 
 
         [HttpPost("add")]
-        public async Task<ActionResult> Add(MeetBooking  meetBooking)
+        public async Task<ActionResult> Add(Appointment  meetBooking)
         {
             if (ModelState.IsValid)
             {
-                await  _meetBookingRepository.Add(meetBooking);
+                await  _appointmentRepository.Add(meetBooking);
                 return Ok(meetBooking);
             }
             return BadRequest();
@@ -31,21 +31,21 @@ namespace ReaiotBackend.Controllers
         [HttpGet("all")]
         public ActionResult GetAll()
         {
-            return Ok(_meetBookingRepository.GetAll());
+            return Ok(_appointmentRepository.GetAll());
         }
 
         [HttpGet("getbyid/{id}")]
         public ActionResult GetById(int id)
         {
-            return Ok(_meetBookingRepository.GetById(id));
+            return Ok(_appointmentRepository.GetById(id));
         }
 
         [HttpPut("update")]
-        public async Task<ActionResult> Update(MeetBooking  meetBooking)
+        public async Task<ActionResult> Update(Appointment  meetBooking)
         {
             if (ModelState.IsValid)
             {
-                await _meetBookingRepository.Update(meetBooking);
+                await _appointmentRepository.Update(meetBooking);
                 return Ok(meetBooking);
             }
             return BadRequest();
@@ -54,10 +54,10 @@ namespace ReaiotBackend.Controllers
         [HttpDelete("delete/{id}")]
         public ActionResult Delete(int id)
         {
-            var help =  _meetBookingRepository.GetById(id);
+            var help =  _appointmentRepository.GetById(id);
             if (help != null)
             {
-                _meetBookingRepository.Delete(id);
+                _appointmentRepository.Delete(id);
                 return Ok(help);
             }
             return BadRequest();

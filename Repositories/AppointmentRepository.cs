@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ReaiotBackend.Repositories
 {
-    public class  MeetBookingRepository : IMeetBookingRepository
+    public class  AppointmentRepository : IAppointmentRepository
     {
         private readonly ReaiotDbContext _reaiotDbContext;
-        public MeetBookingRepository(ReaiotDbContext reaiotDbContext)
+        public AppointmentRepository(ReaiotDbContext reaiotDbContext)
         {
             _reaiotDbContext = reaiotDbContext;
         }
 
-        public Task Add(MeetBooking meetBooking)
+        public Task Add(Appointment meetBooking)
         {
             _reaiotDbContext.Add(meetBooking);
             return _reaiotDbContext.SaveChangesAsync();
@@ -22,20 +22,20 @@ namespace ReaiotBackend.Repositories
 
         public Task Delete(int id)
         {
-            _reaiotDbContext.Remove(_reaiotDbContext.MeetBookings.Find(id));
+            _reaiotDbContext.Remove(_reaiotDbContext.Appointments.Find(id));
             return _reaiotDbContext.SaveChangesAsync();
         }
-        public MeetBooking GetById(int id)
+        public Appointment GetById(int id)
         {
-            return _reaiotDbContext.MeetBookings.Find(id);
+            return _reaiotDbContext.Appointments.Find(id);
         }
 
-        public IEnumerable<MeetBooking> GetAll()
+        public IEnumerable<Appointment> GetAll()
         {
-            return _reaiotDbContext.MeetBookings;
+            return _reaiotDbContext.Appointments;
         }
 
-        public Task Update(MeetBooking meetBooking)
+        public Task Update(Appointment meetBooking)
         {
             _reaiotDbContext.Update(meetBooking);
             return _reaiotDbContext.SaveChangesAsync();

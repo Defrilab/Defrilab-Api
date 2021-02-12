@@ -152,7 +152,7 @@ namespace ReaiotBackend
             services.AddTransient<IMessagesRepository, MessagesRepository>();
             services.AddTransient<ISubscriberRepository, SubscriberRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddTransient<IMeetBookingRepository, MeetBookingRepository>();
+            services.AddTransient<IAppointmentRepository, AppointmentRepository>();
            
             services.AddControllers();         
             services.AddSignalR();

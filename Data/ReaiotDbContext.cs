@@ -18,7 +18,7 @@ namespace ReaiotBackend.Data
         public DbSet<Help> Help { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Setting> Settings { get; set; }
-        public DbSet<MeetBooking> MeetBookings { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Order> Orders { get; set; }
     }
 }

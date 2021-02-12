@@ -1,6 +1,6 @@
 ﻿namespace ReaiotBackend.Models.Services
 {
-    public class MeetBooking : BaseModel
+    public class Appointment : BaseModel
     {
         public  string  Email { get; set; }
         public  string  Username { get; set; }
