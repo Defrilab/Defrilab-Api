@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using ReaiotBackend.Data;
 using ReaiotBackend.Dtos;
+using ReaiotBackend.Models;
 using ReaiotBackend.Services;
 using System.Collections.Generic;
 using Twilio;
@@ -33,7 +34,7 @@ namespace ReaiotBackend.Controllers
             return BadRequest();
         }  
         
-        [HttpPost("SendTwiioMessage")]
+        [HttpPost("SendTwilioMessage")]
         public IActionResult SendTwilioMessage(TwilioMessage twilioMessage)
         {
             // Get credentials for Twilio

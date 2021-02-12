@@ -1,6 +1,4 @@
-﻿using ReaiotBackend.Models;
-
-namespace ReaiotBackend.Services
+﻿namespace ReaiotBackend.Models
 {
     public class TwilioMessage : BaseModel
     {
