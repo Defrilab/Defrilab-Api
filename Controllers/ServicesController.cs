@@ -60,6 +60,47 @@ namespace ReaiotBackend.Controllers
 
             return Ok();
         }
+
+        #region IBeesTest
+        public class IBeesMessage
+        {
+            public int  Id { get; set; }
+            public  string  Humidity { get; set; }
+            public  string  Temperature { get; set; }
+            public  string  Owner { get; set; }
+        }
+
+        [HttpPost("SendIBeesMessage")]
+        public IActionResult SendIBeesMessage(IBeesMessage  beesMessage)
+        {
+            // Get credentials for Twilio
+            var twilioCredentials = _configuration.GetSection("TwilioCredentials");
+            var twilioDto = twilioCredentials.Get<TwilioDto>();
+
+            TwilioClient.Init(twilioDto.AccountSSD, twilioDto.AuthToken);
+
+
+            //dictionary of people to send the messages to 
+            var people = new Dictionary<string, string>()
+            {
+                { "+254742267032","Humphry" }
+            };
+
+            foreach (var person in people)
+            {
+                MessageResource.Create(
+                    from: new PhoneNumber("+12056565415"),
+                    to: new PhoneNumber(person.Key),
+                    body: $"Hello {beesMessage.Owner}, this is Ibees\n." +
+                          $"This is your data : \n" +
+                          $"Temperature : {beesMessage.Temperature}\n" +
+                          $"Humidity    : {beesMessage.Humidity}.\n" +
+                          $"Contact infor@ibees.org.");
+            }
+
+            return Ok();
+        }
+        #endregion
     }
 }
 
