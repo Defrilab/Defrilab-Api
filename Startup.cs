@@ -78,26 +78,26 @@ namespace ReaiotBackend
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "Reaiot",
+                        Title = "Defrisoft",
                         Version = "v1",
                         Contact = new OpenApiContact()
                         {
-                            Email = "reaiotorg@gmail.com",
-                            Name = "infor reaiot support",
-                            Url = new Uri("http://reaiot.com/contact"),
+                            Email = "defrisoft@infor.com",
+                            Name = "infor defrisoft support",
+                            Url = new Uri("http://defrisoft.com/contact"),
                             
                         },
 
                         //change this to valid uri
-                        TermsOfService = new Uri("http://reaiot.com/legal/terms_conditions"),
+                        TermsOfService = new Uri("http://defrisoft.com/legal/terms_conditions"),
 
                         // change this to better license
                         License = new OpenApiLicense()
                         {
                             Name = "MIT Licence",
-                            Url = new Uri("http://reaiot.com/legal/licence")
+                            Url = new Uri("http://defrisoft.com/legal/licence")
                         },
-                        Description = "This Swagger  UI is for documentation for all Reaiot " +
+                        Description = "This Swagger  UI is for documentation for all Defrisoft " +
                                       "services that need backend, either data storage like Mobile apps, " +
                                       "email services for communication with our customers and partners, " +
                                       "messaging services and solutions that require analysis like computer " +
@@ -108,7 +108,7 @@ namespace ReaiotBackend
                                       "email and password without changing anything else. Click on Authorize " +
                                       "button below this documentation. In the box(entry) provided insert the token " +
                                       "in the format 'Bearer tokenitself', click on Authorize, then close and start using the service. " +
-                                      "Cheers with Reaiot!"
+                                      "Cheers with Defrisoft!"
                     }) ;
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -170,7 +170,7 @@ namespace ReaiotBackend
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Reaiot");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Defrisoft");
                 c.RoutePrefix = string.Empty;
             });
             app.UseIpRateLimiting();
