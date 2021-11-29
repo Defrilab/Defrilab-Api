@@ -18,11 +18,11 @@ namespace ReaiotBackend.Repositories
             _logger = logger;
         }
 
-        public Task AddRtgsmsDevice(DeviceMessage deviceMessage)
+        public Task AddRtgsmsDevice(RtgsmsSgfx deviceMessage)
         {
             
-            _logger.LogInformation($"RTGSMS Notification:\n Received payload from device ID :{deviceMessage.Device}\n\t Temp : {deviceMessage.Temp}, Hum : {deviceMessage.Hum}, Time :{DateTime.Now.TimeOfDay}, data :{deviceMessage.Data}");
-            _reaiotDbContext.Add(deviceMessage);
+            _logger.LogInformation($"RTGSMS Notification:\n Received payload from device ID :{deviceMessage.Device}\n\t DeviceTypeId : {deviceMessage.DeviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{deviceMessage.Data}");
+            //_reaiotDbContext.Add(deviceMessage);
             return _reaiotDbContext.SaveChangesAsync();
         }       
 
