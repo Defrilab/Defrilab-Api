@@ -8,7 +8,7 @@ namespace ReaiotBackend.Repositories
 {
     public class HelpRepository : IHelpRepository
     {
-        private readonly ReaiotDbContext _reaiotDbContext;
+    private readonly ReaiotDbContext _reaiotDbContext;
         public HelpRepository(ReaiotDbContext reaiotDbContext)
         {
             _reaiotDbContext = reaiotDbContext;

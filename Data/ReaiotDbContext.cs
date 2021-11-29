@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ReaiotBackend.Models;
+using ReaiotBackend.Models.Rtgsms;
 using ReaiotBackend.Models.services;
 using ReaiotBackend.Models.Services;
 
@@ -20,5 +21,6 @@ namespace ReaiotBackend.Data
         public DbSet<Setting> Settings { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public  DbSet<DeviceMessage> DeviceMessage { get; set; }
     }
 }

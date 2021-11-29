@@ -153,6 +153,7 @@ namespace ReaiotBackend
             services.AddTransient<ISubscriberRepository, SubscriberRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+            services.AddTransient<IRtgsmsRepository, RtgsmsRepository>();
            
             services.AddControllers();         
             services.AddSignalR();
@@ -166,7 +167,7 @@ namespace ReaiotBackend
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
