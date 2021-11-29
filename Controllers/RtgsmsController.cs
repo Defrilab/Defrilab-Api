@@ -26,7 +26,7 @@ namespace ReaiotBackend.Controllers
         }
 
         [HttpPost("addRtgsmsObject")]
-        public ActionResult AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
+        public  async Task<ActionResult> AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
         {
             var device = new DeviceMessage()
             {
@@ -48,7 +48,7 @@ namespace ReaiotBackend.Controllers
             };
              
             _logger.LogInformation($"RTGSMS Notification: \r\n Received payload from \r\n device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.deviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}, Geophone Analog Value : {rtgsmsObject.Geophone_analog_value}");
-            _rtgsmsRepository.AddRtgsmsDevice(device); 
+            await  _rtgsmsRepository.AddRtgsmsDevice(device); 
             return Ok();
         }
 
