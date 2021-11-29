@@ -28,10 +28,27 @@ namespace ReaiotBackend.Controllers
         [HttpPost("addRtgsmsObject")]
         public ActionResult AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
         {
-            var jsonObject = JsonConvert.SerializeObject(rtgsmsObject);
-            _logger.LogInformation($"RTGSMS Notification: \r\n Received payload from \r\n device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.DeviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
-            //_reaiotDbContext.Add(deviceMessage);
-            _logger.LogInformation(jsonObject);
+            var device = new DeviceMessage()
+            {
+                Id = 0,
+                Geophone_analog_value = rtgsmsObject.Geophone_analog_value,
+                x_acc = rtgsmsObject.x_acc,
+                Y_acc = rtgsmsObject.Y_acc,
+                Z_acc = rtgsmsObject.Z_acc,
+                Data = rtgsmsObject.Data,
+                deviceTypeId = rtgsmsObject.deviceTypeId,
+                Hum = rtgsmsObject.Hum,
+                Temp = rtgsmsObject.Temp,
+                Lat = rtgsmsObject.Lat,
+                Device = rtgsmsObject.Device,
+                Flags = rtgsmsObject.Flags,
+                Ldr = rtgsmsObject.Ldr,
+                Long = rtgsmsObject.Long,
+                Time = rtgsmsObject.Time
+            };
+             
+            _logger.LogInformation($"RTGSMS Notification: \r\n Received payload from \r\n device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.deviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}, Geophone Analog Value : {rtgsmsObject.Geophone_analog_value}");
+            _rtgsmsRepository.AddRtgsmsDevice(device); 
             return Ok();
         }
 
