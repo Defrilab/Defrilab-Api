@@ -29,9 +29,11 @@ namespace ReaiotBackend.Controllers
         }
 
         [HttpPost("addRtgsmsObject")]
-        public ActionResult AddRtgsmsMessage(Object rtgsmsObject)
+        public ActionResult AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
         {
             var jsonObject = JsonConvert.SerializeObject(rtgsmsObject);
+            _logger.LogInformation($"RTGSMS Notification:\n Received payload from device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.DeviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
+            //_reaiotDbContext.Add(deviceMessage);
             _logger.LogInformation(jsonObject);
             return Ok();
         }
