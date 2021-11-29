@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ReaiotBackend.IRepositories;
 using ReaiotBackend.Models.Rtgsms;
+using System;
 using System.Threading.Tasks;
 
 namespace ReaiotBackend.Controllers
@@ -8,9 +11,11 @@ namespace ReaiotBackend.Controllers
     public class RtgsmsController :  ControllerBase
     {
         private readonly IRtgsmsRepository _rtgsmsRepository;
-        public RtgsmsController(IRtgsmsRepository rtgsmsRepository)
+        private readonly ILogger<IRtgsmsRepository> _logger;
+        public RtgsmsController(IRtgsmsRepository rtgsmsRepository, ILogger<IRtgsmsRepository> logger)
         {
             _rtgsmsRepository = rtgsmsRepository;
+            _logger = logger;
         }
         [HttpPost("add")]
         public async Task<ActionResult> Add(DeviceMessage deviceMessage)
@@ -21,6 +26,14 @@ namespace ReaiotBackend.Controllers
                 return Ok(deviceMessage);
             }
             return BadRequest();
+        }
+
+        [HttpPost("addRtgsmsObject")]
+        public ActionResult AddRtgsmsMessage(Object rtgsmsObject)
+        {
+            var jsonObject = JsonConvert.SerializeObject(rtgsmsObject);
+            _logger.LogInformation(jsonObject);
+            return Ok();
         }
 
         [HttpGet("all")]

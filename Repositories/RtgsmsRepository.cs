@@ -24,7 +24,7 @@ namespace ReaiotBackend.Repositories
             _logger.LogInformation($"RTGSMS Notification:\n Received payload from device ID :{deviceMessage.Device}\n\t Temp : {deviceMessage.Temp}, Hum : {deviceMessage.Hum}, Time :{DateTime.Now.TimeOfDay}, data :{deviceMessage.Data}");
             _reaiotDbContext.Add(deviceMessage);
             return _reaiotDbContext.SaveChangesAsync();
-        }
+        }       
 
         public Task DeleteRtgsmsDeviceById(int id)
         {

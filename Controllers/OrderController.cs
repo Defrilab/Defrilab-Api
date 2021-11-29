@@ -27,6 +27,7 @@ namespace ReaiotBackend.Controllers
             }
             return BadRequest();
         }
+       
 
         [HttpGet("all")]
         public ActionResult GetAll()
