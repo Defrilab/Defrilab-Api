@@ -20,19 +20,16 @@ namespace ReaiotBackend.Controllers
         [HttpPost("add")]
         public async Task<ActionResult> Add(DeviceMessage deviceMessage)
         {
-            if (ModelState.IsValid)
-            {
-                await _rtgsmsRepository.AddRtgsmsDevice(deviceMessage);
-                return Ok(deviceMessage);
-            }
-            return BadRequest();
+            await _rtgsmsRepository.AddRtgsmsDevice(deviceMessage);
+            return Ok(deviceMessage);
+            //return BadRequest();
         }
 
         [HttpPost("addRtgsmsObject")]
         public ActionResult AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
         {
             var jsonObject = JsonConvert.SerializeObject(rtgsmsObject);
-            _logger.LogInformation($"RTGSMS Notification:\n Received payload from device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.DeviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
+            _logger.LogInformation($"RTGSMS Notification: \r\n Received payload from \r\n device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.DeviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
             //_reaiotDbContext.Add(deviceMessage);
             _logger.LogInformation(jsonObject);
             return Ok();

@@ -28,7 +28,9 @@ namespace ReaiotBackend.Repositories
 
         public Task AddRtgsmsDevice(DeviceMessage deviceMessage)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Full RTGSMS Notification:\n Received payload from device ID :{deviceMessage.Device}\n\t DeviceTypeId : {deviceMessage.Geophone_analog_value}, Time :{DateTime.Now.TimeOfDay}, data :{deviceMessage.Data}");
+            _reaiotDbContext.Add(deviceMessage);
+            return _reaiotDbContext.SaveChangesAsync();
         }
 
         public Task DeleteRtgsmsDeviceById(int id)
