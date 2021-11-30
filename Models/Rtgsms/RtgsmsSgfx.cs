@@ -4,7 +4,7 @@
     {
         public string Device { get; set; }
         public string Time { get; set; }
-        public string deviceTypeId { get; set; }
+        public string DeviceTypeId { get; set; }
         public string Data { get; set; }
         public int Temp { get; set; }
         public int Hum { get; set; }

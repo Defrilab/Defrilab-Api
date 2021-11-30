@@ -18,10 +18,28 @@ namespace ReaiotBackend.Repositories
             _logger = logger;
         }       
 
-        public Task AddRtgsmsDevice(DeviceMessage deviceMessage)
+        public Task AddRtgsmsDevice(RtgsmsSgfx rtgsmsObject)
         {
-            _logger.LogInformation($"Full RTGSMS Notification:\n Received payload from device ID :{deviceMessage.Device}\n\t DeviceTypeId : {deviceMessage.Geophone_analog_value}, Time :{DateTime.Now.TimeOfDay}, data :{deviceMessage.Data}");
-            _reaiotDbContext.Add(deviceMessage);
+            var device = new DeviceMessage()
+            {
+                Id = 0,
+                Geophone_analog_value = rtgsmsObject.Geophone_analog_value,
+                x_acc = rtgsmsObject.x_acc,
+                Y_acc = rtgsmsObject.Y_acc,
+                Z_acc = rtgsmsObject.Z_acc,
+                Data = rtgsmsObject.Data,
+                deviceTypeId = rtgsmsObject.DeviceTypeId,
+                Hum = rtgsmsObject.Hum,
+                Temp = rtgsmsObject.Temp,
+                Lat = rtgsmsObject.Lat,
+                Device = rtgsmsObject.Device,
+                Flags = rtgsmsObject.Flags,
+                Ldr = rtgsmsObject.Ldr,
+                Long = rtgsmsObject.Long,
+                Time = rtgsmsObject.Time
+            };
+            _logger.LogInformation($"RTGSMS Notification:\r\n Received payload from device ID :{rtgsmsObject.DeviceTypeId}\n\t DeviceTypeId : {rtgsmsObject.Geophone_analog_value}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
+            _reaiotDbContext.Add(device);
             return _reaiotDbContext.SaveChangesAsync();
         }
 

@@ -6,7 +6,7 @@ namespace ReaiotBackend.IRepositories
 {
     public interface IRtgsmsRepository
     {
-        Task AddRtgsmsDevice(DeviceMessage deviceMessage);
+        Task AddRtgsmsDevice(RtgsmsSgfx deviceMessage);
         IEnumerable<DeviceMessage> GetRtgsmsDevice();
         DeviceMessage GetRtgsmsDeviceById(int id);
         Task DeleteRtgsmsDeviceById(int id);

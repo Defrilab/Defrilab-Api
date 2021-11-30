@@ -17,38 +17,11 @@ namespace ReaiotBackend.Controllers
             _rtgsmsRepository = rtgsmsRepository;
             _logger = logger;
         }
-        [HttpPost("add")]
-        public async Task<ActionResult> Add(DeviceMessage deviceMessage)
-        {
-            await _rtgsmsRepository.AddRtgsmsDevice(deviceMessage);
-            return Ok(deviceMessage);
-            //return BadRequest();
-        }
 
         [HttpPost("addRtgsmsObject")]
         public  async Task<ActionResult> AddRtgsmsMessage(RtgsmsSgfx rtgsmsObject)
         {
-            var device = new DeviceMessage()
-            {
-                Id = 0,
-                Geophone_analog_value = rtgsmsObject.Geophone_analog_value,
-                x_acc = rtgsmsObject.x_acc,
-                Y_acc = rtgsmsObject.Y_acc,
-                Z_acc = rtgsmsObject.Z_acc,
-                Data = rtgsmsObject.Data,
-                deviceTypeId = rtgsmsObject.deviceTypeId,
-                Hum = rtgsmsObject.Hum,
-                Temp = rtgsmsObject.Temp,
-                Lat = rtgsmsObject.Lat,
-                Device = rtgsmsObject.Device,
-                Flags = rtgsmsObject.Flags,
-                Ldr = rtgsmsObject.Ldr,
-                Long = rtgsmsObject.Long,
-                Time = rtgsmsObject.Time
-            };
-             
-            _logger.LogInformation($"RTGSMS Notification: \r\n Received payload from \r\n device ID :{rtgsmsObject.Device}\n\t DeviceTypeId : {rtgsmsObject.deviceTypeId}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}, Geophone Analog Value : {rtgsmsObject.Geophone_analog_value}");
-            await  _rtgsmsRepository.AddRtgsmsDevice(device); 
+            await  _rtgsmsRepository.AddRtgsmsDevice(rtgsmsObject); 
             return Ok();
         }
 
