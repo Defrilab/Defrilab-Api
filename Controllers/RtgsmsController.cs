@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using ReaiotBackend.IRepositories;
 using ReaiotBackend.Models.Rtgsms;
-using System;
 using System.Threading.Tasks;
 
 namespace ReaiotBackend.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class RtgsmsController :  ControllerBase
     {
         private readonly IRtgsmsRepository _rtgsmsRepository;
