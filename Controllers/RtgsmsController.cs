@@ -30,6 +30,11 @@ namespace ReaiotBackend.Controllers
         {
             return Ok(_rtgsmsRepository.GetRtgsmsDevice());
         }
+        [HttpGet("recentMessages")]
+        public ActionResult GetRecent()
+        {
+            return Ok(_rtgsmsRepository.GetRecentMessages());
+        }
 
         [HttpGet("getbyid/{id}")]
         public ActionResult GetById(int id)

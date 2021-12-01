@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using ReaiotBackend.Data;
 using ReaiotBackend.IRepositories;
 using ReaiotBackend.Models.Rtgsms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace ReaiotBackend.Repositories
@@ -18,7 +22,7 @@ namespace ReaiotBackend.Repositories
             _logger = logger;
         }       
 
-        public Task AddRtgsmsDevice(RtgsmsSgfx rtgsmsObject)
+        public async Task AddRtgsmsDevice(RtgsmsSgfx rtgsmsObject)
         {
             var device = new DeviceMessage()
             {
@@ -38,15 +42,25 @@ namespace ReaiotBackend.Repositories
                 Long = rtgsmsObject.Long,
                 Time = rtgsmsObject.Time
             };
+            var httpClient = new HttpClient();
+            var jsonDataUser = JsonConvert.SerializeObject(device);
+            var httpContent = new StringContent(jsonDataUser);
+            httpContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            var response = await httpClient.PostAsync("http://127.0.0.1:5050/update_realtime", httpContent).ConfigureAwait(false);
             _logger.LogInformation($"RTGSMS Notification:\r\n Received payload from device ID :{rtgsmsObject.DeviceTypeId}\n\t DeviceTypeId : {rtgsmsObject.Geophone_analog_value}, Time :{DateTime.Now.TimeOfDay}, data :{rtgsmsObject.Data}");
             _reaiotDbContext.Add(device);
-            return _reaiotDbContext.SaveChangesAsync();
+           await _reaiotDbContext.SaveChangesAsync();
         }
 
         public Task DeleteRtgsmsDeviceById(int id)
         {
             _reaiotDbContext.Remove(_reaiotDbContext.DeviceMessage.Find(id));
             return _reaiotDbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<DeviceMessage> GetRecentMessages()
+        {
+            return _reaiotDbContext.DeviceMessage.OrderByDescending(message => message.Id).Take(20);
         }
 
         public IEnumerable<DeviceMessage> GetRtgsmsDevice()

@@ -8,6 +8,7 @@ namespace ReaiotBackend.IRepositories
     {
         Task AddRtgsmsDevice(RtgsmsSgfx deviceMessage);
         IEnumerable<DeviceMessage> GetRtgsmsDevice();
+        IEnumerable<DeviceMessage> GetRecentMessages();
         DeviceMessage GetRtgsmsDeviceById(int id);
         Task DeleteRtgsmsDeviceById(int id);
         Task UpdateRtgsmsDeviceById(DeviceMessage deviceMessage);
